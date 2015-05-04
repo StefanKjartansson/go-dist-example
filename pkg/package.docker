@@ -16,6 +16,4 @@ COPY . /go/src/app
 
 ENV NAME name
 
-RUN go build -o $NAME .
-
 CMD ./make-package.sh
