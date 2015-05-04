@@ -1,0 +1,21 @@
+FROM golang:1.4.2
+
+RUN apt-get update && apt-get install -y \
+        rpm ruby ruby-dev \
+        --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN gem install fpm
+
+RUN mkdir -p /go/src/app
+WORKDIR /go/src/app
+
+COPY pkg/make-package.sh make-package.sh
+
+COPY . /go/src/app
+
+ENV NAME name
+
+RUN go build -o $NAME .
+
+CMD ./make-package.sh
